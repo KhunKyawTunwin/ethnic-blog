@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 
@@ -14,6 +14,7 @@ const Nav = () => {
   useEffect(() => {
     const setUpProvider = async () => {
       const response = await getProviders();
+
       setProviders(response);
     };
 
@@ -40,17 +41,15 @@ const Nav = () => {
             <Link href="/create-prompt" className="black_btn">
               Create Post
             </Link>
-
             <button type="button" onClick={signOut} className="outline_btn">
               Sign Out
             </button>
-
             <Link href="/profile">
               <Image
-                src={session?.user.image}
+                src={session?.user.image || `/assets/images/PF.jpg`}
                 width={37}
                 height={37}
-                className="rounded-full"
+                className="rounded-full bg-slate-800 p-0.5"
                 alt="profile"
               />
             </Link>
@@ -79,9 +78,9 @@ const Nav = () => {
             <Image
               width={37}
               height={37}
-              className="rounded-full cursor-pointer"
+              className="rounded-full cursor-pointer bg-slate-700 p-0.5"
               alt="profile"
-              src={session?.user.image}
+              src={session?.user.image || `/assets/images/PF.jpg`}
               onClick={() => setToggleDropdown((prev) => !prev)}
             />
 

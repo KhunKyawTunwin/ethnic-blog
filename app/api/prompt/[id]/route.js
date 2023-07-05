@@ -23,7 +23,7 @@ export const GET = async (request, { params }) => {
 
 // PATH (update)
 
-export const PATH = async (request, { params }) => {
+export const PATCH = async (request, { params }) => {
   const { prompt, tag } = await request.json();
 
   try {

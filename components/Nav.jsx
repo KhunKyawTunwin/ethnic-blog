@@ -22,16 +22,16 @@ const Nav = () => {
   }, []);
 
   return (
-    <nav className="flex-between w-full mb-16 pt-3">
+    <nav className="flex-between w-full mb-16 pt-3 sticky top-0 z-50">
       <Link href="/" className="flex gap-2 flex-center">
         <Image
           width={30}
           height={30}
           className="object-contain"
           alt="Logo"
-          src="/assets/images/logo.svg"
+          src="/assets/images/eth.png"
         />
-        <p className="logo_text">Ethnic_Channel</p>
+        <p className="logo_text">Ethnicity</p>
       </Link>
 
       {/* Desktop Navigation */}

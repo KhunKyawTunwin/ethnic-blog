@@ -19,21 +19,54 @@ const PromptCardlist = ({ data, handleTagClick }) => {
 };
 
 const Feed = () => {
-  const [searchText, setSearchText] = useState("");
-  const [posts, setPosts] = useState([]);
+  const [allPosts, setAllPosts] = useState([]);
 
-  const handleSearchChange = (e) => {};
+  // Search states
+  const [searchText, setSearchText] = useState("");
+  const [searchTimeout, setSearchTimeout] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
+
+  const fetchPost = async () => {
+    const response = await fetch("/api/prompt");
+    const data = await response.json();
+
+    setAllPosts(data);
+  };
 
   useEffect(() => {
-    const fetchPost = async () => {
-      const response = await fetch("/api/prompt");
-      const data = await response.json();
-
-      setPosts(data);
-    };
-
     fetchPost();
   }, []);
+
+  const filterPrompts = (searchtext) => {
+    // "i" flag for case-insensitive search
+    const regex = new RegExp(searchtext, "i");
+    return allPosts.filter(
+      (item) =>
+        regex.test(item.creator.username) ||
+        regex.test(item.tag) ||
+        regex.test(item.prompt)
+    );
+  };
+
+  const handleSearchChange = (e) => {
+    clearTimeout(searchTimeout);
+    setSearchText(e.target.value);
+
+    // debounce method
+    setSearchTimeout(
+      setTimeout(() => {
+        const searchResult = filterPrompts(e.target.value);
+        setSearchResults(searchResult);
+      }, 500)
+    );
+  };
+
+  const handleTagClick = (tagName) => {
+    setSearchText(tagName);
+
+    const searchResult = filterPrompts(tagName);
+    setSearchResults(searchResult);
+  };
 
   return (
     <section className="feed">
@@ -48,7 +81,11 @@ const Feed = () => {
         />
       </form>
 
-      <PromptCardlist data={posts} handleTagClick={() => {}} />
+      {searchText ? (
+        <PromptCardlist data={searchResults} handleTagClick={handleTagClick} />
+      ) : (
+        <PromptCardlist data={allPosts} handleTagClick={handleTagClick} />
+      )}
     </section>
   );
 };

@@ -15,7 +15,7 @@ const RootLayout = ({ children }) => {
         <link
           rel="icon"
           href="/assets/images/eth.png"
-          type="image/<generated>"
+          type="image/png"
           sizes="<generated>"
         />
       </head>

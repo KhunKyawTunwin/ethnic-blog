@@ -29,18 +29,16 @@ const handler = NextAuth({
         const userExits = await User.findOne({ email: profile.email });
 
         // if not, create a new user
-
         if (!userExits) {
           await User.create({
             email: profile.email,
             username: profile.name.replace(" ", "").toLowerCase(),
-            image: profile.picture,
+            image: profile.image,
           });
         }
 
         return true;
       } catch (error) {
-        console.log(error);
         return false;
       }
     },
